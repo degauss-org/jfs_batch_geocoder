@@ -8,7 +8,7 @@ setwd('/tmp')
 
 suppressPackageStartupMessages(library(argparser))
 p <- arg_parser('offline geocoding, returns the input file with geocodes appended')
-p <- add_argument(p,'file_name',help='name of input csv file with a column named "address"')
+p <- add_argument(p,'file_name',help='name of input csv file with a columns named "ALLEGATION_ADDRESS" and "CHILD_ADDRESS"')
 args <- parse_args(p)
 
 # import data
@@ -17,8 +17,14 @@ message('\n', 'reading in address file: ', args$file_name, '...\n')
 
 d <- read_csv(args$file_name)
 
-# must contain character column called address
-if (! 'address' %in% names(d)) stop('no column called address found in the input file', call. = FALSE)
+# must contain character columns called ALLEGATION_ADDRESS and CHILD_ADDRESS
+if (! 'ALLEGATION_ADDRESS' %in% names(d)) stop('no column called ALLEGATION_ADDRESS found in the input file', call. = FALSE)
+if (! 'CHILD_ADDRESS' %in% names(d)) stop('no column called CHILD_ADDRESS found in the input file', call. = FALSE)
+
+d <- d %>%
+    pivot_longer(cols = c(ALLEGATION_ADDRESS, CHILD_ADDRESS),
+                 names_to = 'address_type',
+                 values_to = 'address')
 
 message('\n', 'removing excess whitespace', '...\n')
 d <- d %>% mutate(address = str_replace_all(address, '[[:blank:]]', ' '))
