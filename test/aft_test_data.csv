@@ -1,0 +1,9 @@
+﻿INTAKE_ID,SCREENING_DECISION,DECISION_DATE,ALLEGATION_ADDRESS,PERSON_ID,RACE,CHILD_ADDRESS,ADDRESS_START,MANDATED_REPORTER,REPORTER_PERSON_ID,PROVIDER_ID,PROVIDER_NAME,PROVIDER_ADDRESS
+123123,SCREENED IN,2/21/20,1616 Trace Ave North College Hill Oh 45239,98765,White,1616 Trace Ave North College Hill Oh 45239,10/21/18,Yes,121212,4715396,"INDEPENDENT LIVING, LIGHTHOUSE",4240 Hamilton Ave  Apt 11  Cincinnati Oh 45223
+123123,SCREENED IN,2/21/20,1616 Trace Ave North College Hill Oh 45239,98765,White,1616 Trace Ave North College Hill Oh 45239,10/21/18,Yes,131313,4868386,Cincinnati Children's Hospital,3333 Burnet Ave  Cincinnati Oh 45229
+123123,SCREENED IN,2/21/20,1616 Trace Ave North College Hill Oh 45239,98764,Multi-Racial,1616 Trace Ave North College Hill Oh 45239,10/21/18,Yes,121212,4715396,"INDEPENDENT LIVING, LIGHTHOUSE",4240 Hamilton Ave  Apt 11  Cincinnati Oh 45223
+123123,SCREENED IN,2/21/20,1616 Trace Ave North College Hill Oh 45239,98764,Multi-Racial,1616 Trace Ave North College Hill Oh 45239,10/21/18,Yes,131313,4868386,Cincinnati Children's Hospital,3333 Burnet Ave  Cincinnati Oh 45229
+421421,SCREENED IN,4/20/20,956 Ellert Ave Cincinnati Oh 45205,455076,Black/African American,6970 Manchester Ave Cincinnati Oh 45205,2/21/19,Yes,727727,4855379,Children's Home of Cincinnati,5050 Madison Rd  Cincinnati Oh 45227
+421421,SCREENED IN,4/20/20,957 Ellert Ave Cincinnati Oh 45205,455076,Black/African American,6970 Manchester Ave Cincinnati Oh 45205,2/21/19,No,,,,
+623455,SCREENED OUT,7/10/20,,50939,American Indian,9627 Lostocats Rd # 37 Cincinnati Oh 45240,11/16/19,Yes,98765,4724088,PROKIDS,2605 Burnet Ave  Cincinnati Oh 45219
+623455,SCREENED OUT,7/10/20,,51040,Asian,3025 Broadwide Ave Cincinnati Oh 45240,6/30/10,Yes,98765,4724088,PROKIDS,2605 Burnet Ave  Cincinnati Oh 45219

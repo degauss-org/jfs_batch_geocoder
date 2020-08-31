@@ -140,7 +140,9 @@ d_geocoded_precise_tract <- d_geocoded_precise_tract %>%
 
 message('adding tract-level deprivation index (https://github.com/cole-brokamp/dep_index)', '...\n')
 
-d_dep <- readRDS('/opt/ACS_deprivation_index_by_census_tracts.rds') %>% rename(fips_tract_id = census_tract_fips)
+d_dep <- readRDS('/opt/ACS_deprivation_index_by_census_tracts.rds') %>%
+    ungroup() %>%
+    rename(fips_tract_id = census_tract_fips)
 
 suppressWarnings(
 d_geocoded_precise_tract_dep <- left_join(d_geocoded_precise_tract, d_dep, by='fips_tract_id')
