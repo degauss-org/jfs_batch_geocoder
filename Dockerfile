@@ -42,6 +42,21 @@ RUN apt-get update \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+
+RUN apt-get update \
+  && apt-get install -yqq --no-install-recommends \
+  bison \
+  byacc \
+  libgdal-dev \
+  libgeos-dev \
+  libproj-dev \
+  liblwgeom-dev \
+  libudunits2-dev \
+  gfortran \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 RUN echo 'options(repos=c(CRAN = "https://cran.rstudio.com/"), download.file.method="wget")' >> /etc/R/Rprofile.site
 
 RUN R -e "install.packages(c('tidyverse', 'stringr'))"
@@ -49,30 +64,6 @@ RUN R -e "install.packages(c('tidyverse', 'stringr'))"
 RUN R -e "install.packages(c('jsonlite', 'argparser'))"
 
 RUN R -e "install.packages('remotes'); remotes::install_github('cole-brokamp/CB')"
-
-RUN apt-get update && apt-get install -y \
-  bison \
-  byacc \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN add-apt-repository ppa:ubuntugis/ubuntugis-unstable
-
-RUN apt-get update \
-  && apt-get install -yqq --no-install-recommends \
-  libgdal-dev \
-  libgeos-dev \
-  libproj-dev \
-  liblwgeom-dev \
-  libudunits2-dev \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN apt-get update \
-  && apt-get install -yqq --no-install-recommends \
-  gfortran \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN R -e "install.packages('sf')"
 
