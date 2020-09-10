@@ -73,8 +73,10 @@ geocode <- function(addr_string) {
     stopifnot(class(addr_string)=='character')
     out <- system2('ruby',
                    args = c('/root/geocoder/geocode.rb', shQuote(addr_string)),
-                   stderr=TRUE,stdout=TRUE) %>%
-        jsonlite::fromJSON()
+                   stderr=TRUE,stdout=TRUE)
+    # some versions of ruby return a warning, so only take the second system2 output string
+    if (length(out) == 2) out <- out[2]
+    out <- jsonlite::fromJSON(out)
     # if geocoder returns nothing then system will return empty list
     if (length(out) == 0) out <- tibble(lat = NA, lon = NA, score = NA, precision = NA)
     out
