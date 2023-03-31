@@ -19,11 +19,17 @@ ui <- fluidPage(
                 multiple = TRUE,
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
-                           ".csv"))
+                           ".csv")),
+      
+      downloadButton('download', "Download prepped file")
+      
     ),
     
     # Main panel for displaying outputs ----
     mainPanel(
+      
+      rclipboard::rclipboardSetup(),
+      
       fluidRow(
         column(
           h3("Original Data"),
@@ -33,19 +39,31 @@ ui <- fluidPage(
           tableOutput("prepped"), width = 4)
       ),
       fluidRow(
-        h3("Docker Commands"), 
-        verbatimTextOutput("commands")
+        verbatimTextOutput("newname")
+      ),
+      h3("Docker Commands"),
+      fluidRow(
+        h4("1. "),
+        verbatimTextOutput("command1"), 
+        uiOutput("clip1")
       ),
       fluidRow(
-        downloadButton('download', "Download prepped file")
-      )
+        h4("2. "),
+        verbatimTextOutput("command2"),
+        uiOutput("clip2")
+      ),
+      fluidRow(
+        h4("3. "),
+        verbatimTextOutput("command3"),
+        uiOutput("clip3")
+    )
     )
     
   )
 )
 
 # Define server logic to read selected file ----
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   output$original <- renderTable({
     
@@ -118,25 +136,91 @@ server <- function(input, output) {
     
   })
   
-  
-  output$commands <- renderText({
+  output$newname <- renderText({
     
     req(input$file)
     
     name <- str_sub(input$file$name, end = -5)
     name_prepped <- paste0(name,"_prepped")
     
-    glue::glue("New input file name: {name_prepped}.csv
+    glue::glue("New input file name: {name_prepped}.csv")
+  })
+  
+  
+  output$command1 <- renderPrint({
     
-               1). docker run --rm -v ${{pwd}}:/tmp ghcr.io/degauss-org/geocoder {name_prepped}.csv
-               
-               2). docker run --rm -v ${{pwd}}:/tmp ghcr.io/degauss-org/census_block_group {name_prepped}_geocoder_3.3.0_score_threshold_0.5.csv
-               
-               3). docker run --rm -v ${{pwd}}:/tmp degauss/jfs_aggregated_data_report:5.0.0 {name_prepped}_geocoder_3.3.0_score_threshold_0.5_census_block_group_0.6.0_2010.csv")
+    req(input$file)
+    
+    name <- str_sub(input$file$name, end = -5)
+    name_prepped <- paste0(name,"_prepped")
+    
+    cmd1 <- glue::glue("docker run --rm -v ${{pwd}}:/tmp ghcr.io/degauss-org/geocoder {name_prepped}.csv")
+    
+    print(cmd1)
+    
+    output$clip1 <- renderUI({
+      req(input$file)
+      
+      rclipboard::rclipButton(
+        inputId = "clip1",
+        label = "Copy Docker Command",
+        clipText = cmd1,
+        icon = icon("clipboard")
+      )
+    })
+
+  })
+  
+  
+  
+  output$command2 <- renderPrint({
+    
+    req(input$file)
+    
+    name <- str_sub(input$file$name, end = -5)
+    name_prepped <- paste0(name,"_prepped")
+    
+    cmd2 <- glue::glue("docker run --rm -v ${{pwd}}:/tmp ghcr.io/degauss-org/census_block_group {name_prepped}_geocoder_3.3.0_score_threshold_0.5.csv")
+    
+    print(cmd2)
+    
+    output$clip2 <- renderUI({
+      req(input$file)
+      
+      rclipboard::rclipButton(
+        inputId = "clip2",
+        label = "Copy Docker Command",
+        clipText = cmd2,
+        icon = icon("clipboard")
+      )
+    })
+  })
+  
+  
+  output$command3 <- renderPrint({
+    
+    req(input$file)
+    
+    name <- str_sub(input$file$name, end = -5)
+    name_prepped <- paste0(name,"_prepped")
+    
+    cmd3 <- glue::glue("docker run --rm -v ${{pwd}}:/tmp degauss/jfs_aggregated_data_report:5.0.0 {name_prepped}_geocoder_3.3.0_score_threshold_0.5_census_block_group_0.6.0_2010.csv")
+    
+    print(cmd3)
+    
+    output$clip3 <- renderUI({
+      req(input$file)
+      
+      rclipboard::rclipButton(
+        inputId = "clip3",
+        label = "Copy Docker Command",
+        clipText = cmd3,
+        icon = icon("clipboard")
+      )
+    })
     
   })
   
-
   output$download <- downloadHandler(
     filename = function() {
       paste(str_sub(input$file$name, end = -5), "_prepped", ".csv", sep = "")
