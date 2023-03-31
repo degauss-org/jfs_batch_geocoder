@@ -43,20 +43,35 @@ ui <- fluidPage(
       ),
       h3("Docker Commands"),
       fluidRow(
-        h4("1. "),
-        verbatimTextOutput("command1"), 
-        uiOutput("clip1")
+        splitLayout(
+          cellWidths = c("1.5%", "85%", "10%"),
+          p(strong("1. ")),
+          verbatimTextOutput("command1"),
+          uiOutput("clip1")
+        )
       ),
+      
+      hr(style = "border-top: 1px solid #FFF;"),
+      
       fluidRow(
-        h4("2. "),
-        verbatimTextOutput("command2"),
-        uiOutput("clip2")
+        splitLayout(
+          cellWidths = c("1.5%", "85%", "10%"),
+          p(strong("2. ")),
+          verbatimTextOutput("command2"),
+          uiOutput("clip2")
+        )
       ),
+      
+      hr(style = "border-top: 1px solid #FFF;"),
+      
       fluidRow(
-        h4("3. "),
-        verbatimTextOutput("command3"),
-        uiOutput("clip3")
-    )
+        splitLayout(
+          cellWidths = c("1.5%", "85%", "10%"),
+          p(strong("3. ")),
+          verbatimTextOutput("command3"),
+          uiOutput("clip3")
+        )
+      )
     )
     
   )
@@ -163,7 +178,7 @@ server <- function(input, output, session) {
       
       rclipboard::rclipButton(
         inputId = "clip1",
-        label = "Copy Docker Command",
+        label = "Copy",
         clipText = cmd1,
         icon = icon("clipboard")
       )
@@ -189,7 +204,7 @@ server <- function(input, output, session) {
       
       rclipboard::rclipButton(
         inputId = "clip2",
-        label = "Copy Docker Command",
+        label = "Copy",
         clipText = cmd2,
         icon = icon("clipboard")
       )
@@ -213,7 +228,7 @@ server <- function(input, output, session) {
       
       rclipboard::rclipButton(
         inputId = "clip3",
-        label = "Copy Docker Command",
+        label = "Copy",
         clipText = cmd3,
         icon = icon("clipboard")
       )
