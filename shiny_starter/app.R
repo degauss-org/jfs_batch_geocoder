@@ -1,5 +1,9 @@
-library(tidyverse)
+library(tidyr)
+library(readr)
+library(dplyr)
 library(shiny)
+library(stringr)
+
 
 # Define UI for data upload app ----
 ui <- fluidPage(
@@ -127,8 +131,8 @@ server <- function(input, output, session) {
                              'foreign country',
                              'unknown')
     d <- d |> 
-      mutate(bad_address = map(address, ~ str_detect(.x, coll(foster_char_strings, ignore_case=TRUE)))) %>%
-      mutate(bad_address = map_lgl(bad_address, any))
+      mutate(bad_address = purrr::map(address, ~ str_detect(.x, coll(foster_char_strings, ignore_case=TRUE)))) %>%
+      mutate(bad_address = purrr::map_lgl(bad_address, any))
     
     d[is.na(d$address), 'bad_address'] <- TRUE
     
@@ -136,8 +140,8 @@ server <- function(input, output, session) {
                              '\\bP(OST)*\\.*\\s*[O|0](FFICE)*\\.*\\sB[O|0]X',
                              '(3333\\s*BURNETT*\\s*A.*452[12]9)')
     d <- d |> 
-      mutate(PO = map(address, ~ str_detect(.x, regex(no_no_regex_strings, ignore_case=TRUE)))) %>%
-      mutate(PO = map_lgl(PO, any))
+      mutate(PO = purrr::map(address, ~ str_detect(.x, regex(no_no_regex_strings, ignore_case=TRUE)))) %>%
+      mutate(PO = purrr::map_lgl(PO, any))
     
     d_prepped <- d |> 
       filter(!bad_address & !PO)
@@ -147,7 +151,8 @@ server <- function(input, output, session) {
   
   output$prepped <- renderTable({
     
-    head(d_prepped()[, c("INTAKE_ID",  "address")])
+    d_prepped()[, c("INTAKE_ID",  "address")] |>
+      slice_sample(n = 6)
     
   })
   
