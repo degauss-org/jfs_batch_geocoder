@@ -90,6 +90,7 @@ server <- function(input, output, session) {
     
     df <- read_csv(input$file$datapath)
     
+    
     head(df[,c("INTAKE_ID", "ALLEGATION_ADDRESS", "CHILD_ADDRESS")])
     
   })
@@ -151,8 +152,7 @@ server <- function(input, output, session) {
   
   output$prepped <- renderTable({
     
-    d_prepped()[, c("INTAKE_ID",  "address")] |>
-      slice_sample(n = 6)
+    head(d_prepped()[, c("INTAKE_ID",  "address")])
     
   })
   
