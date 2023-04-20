@@ -1,11 +1,11 @@
 build:
-	docker build -t shiny_starter .
+	docker build -t jfs_data .
 
 shell:
-	docker run --rm -it -p 127.0.0.1:3838:3838 --entrypoint=/bin/bash shiny_starter
+	docker run --rm -it -p 127.0.0.1:3838:3838 --entrypoint=/bin/bash jfs_data
 
 run:
-	open "http://127.0.0.1:3838" & docker run --rm -p 3838:3838 shiny_starter 
+	open "http://127.0.0.1:3838" & docker run --rm -p 3838:3838 jfs_data 
 	
 release:
 ifndef VERSION
